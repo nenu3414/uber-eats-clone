@@ -1,8 +1,7 @@
 import { View, Text, TouchableOpacity, StyleSheet } from "react-native";
-import React, { useState } from "react";
+import React from "react";
 
-export default function HeaderTabs() {
-  const [activeTab, setActiveTab] = useState("Delivery");
+export default function HeaderTabs({ activeTab, setActiveTab }) {
   return (
     <View style={styles.headerTabscontainer}>
       <HeaderButton
@@ -24,24 +23,22 @@ export default function HeaderTabs() {
 }
 
 const HeaderButton = (props) => (
-  <View>
-    <TouchableOpacity
+  <TouchableOpacity
+    style={[
+      styles.touchableOpacityContaner,
+      { backgroundColor: props.activeTab === props.text ? "black" : "white" },
+    ]}
+    onPress={() => props.setActiveTab(props.text)}
+  >
+    <Text
       style={[
-        styles.touchableOpacityContaner,
-        { backgroundColor: props.activeTab === props.text ? "black" : "white" },
+        styles.text,
+        { color: props.activeTab === props.text ? "white" : "black" },
       ]}
-      onPress={() => props.setActiveTab(props.text)}
     >
-      <Text
-        style={[
-          styles.text,
-          { color: props.activeTab === props.text ? "white" : "black" },
-        ]}
-      >
-        {props.text}
-      </Text>
-    </TouchableOpacity>
-  </View>
+      {props.text}
+    </Text>
+  </TouchableOpacity>
 );
 
 const styles = StyleSheet.create({
