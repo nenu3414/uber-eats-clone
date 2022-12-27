@@ -5,8 +5,10 @@ import OrderItem from "./OrderItem";
 import db from "../../firebase";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import Lottie from "lottie-react-native";
+import { useNotifications } from "../../useNotification";
 
 export default function ViewCart({ navigation }) {
+  const { sendPushNotification } = useNotifications();
   const [modalVisible, setModalVisible] = useState(false);
   const [loading, setLoading] = useState(false);
   const { items, restaurantName } = useSelector(
@@ -62,9 +64,12 @@ export default function ViewCart({ navigation }) {
             <View style={{ flexDirection: "row", justifyContent: "center" }}>
               <TouchableOpacity
                 style={styles.checkoutTouchable}
-                onPress={() => {
+                onPress={async () => {
                   addOrderToFirebase();
                   setModalVisible(false);
+                  await sendPushNotification(
+                    "ExponentPushToken[REbpjzDhq89OQCJmLh0bDA]"
+                  );
                 }}
               >
                 <Text style={{ color: "white", fontSize: 20 }}>Checkout</Text>
